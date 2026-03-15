@@ -198,6 +198,7 @@ class qtype_regexmatchcloze extends question_type {
             $qo->feedback[$acount] = $ans->feedback;
             ++$acount;
         }
+        $format->import_hints($qo, $data);
         return $qo;
     }
 
@@ -209,10 +210,12 @@ class qtype_regexmatchcloze extends question_type {
      * @return string exported
      */
     public function export_to_xml($question, qformat_xml $format, $extra = null) {
-
+        $expout = '';
         foreach ($question->options->answers as $answer) {
-            $expout .= $format->write_answer($answer);
+            $extra = '';
+            $expout .= $format->write_answer($answer, $extra);
         }
+        $expout .= $format->write_hints($question);
         return $expout;
     }
 }
